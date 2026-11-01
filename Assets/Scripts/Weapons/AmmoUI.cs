@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class AmmoUI : MonoBehaviour
 {
-    [SerializeField] Weapon weapon;
+    [SerializeField] WeaponSwitcher weaponSwitcher;
     [SerializeField] TMP_Text ammoText;
 
     void Update()
     {
+        Weapon weapon = weaponSwitcher.CurrentWeapon;
+
         ammoText.text = weapon.IsReloading
-            ? "Recargando..."
-            : $"{weapon.CurrentAmmo} / {weapon.ReserveAmmo}";
+            ? $"{weapon.WeaponName}   Recargando..."
+            : $"{weapon.WeaponName}   {weapon.CurrentAmmo} / {weapon.ReserveAmmo}";
     }
 }

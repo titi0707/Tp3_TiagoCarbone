@@ -19,6 +19,12 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    public void Initialize(float newMaxHealth)
+    {
+        maxHealth = newMaxHealth;
+        currentHealth = maxHealth;
+    }
+
     public void TakeDamage(float amount)
     {
         if (IsDead) return;

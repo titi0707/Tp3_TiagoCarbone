@@ -6,20 +6,9 @@ public class EnemyAI : MonoBehaviour
 {
     enum State { Patrol, Chase, Attack }
 
+    [SerializeField] EnemyData data;
     [SerializeField] Vector3[] patrolPoints;
-    [SerializeField] float patrolSpeed = 2f;
-    [SerializeField] float waitTimeAtPoint = 1.5f;
-
-    [SerializeField] float detectionRange = 15f;
-    [SerializeField] float viewAngle = 110f;
-    [SerializeField] float eyeHeight = 0.8f;
-    [SerializeField] float loseSightTime = 3f;
     [SerializeField] LayerMask visionMask = ~0;
-
-    [SerializeField] float chaseSpeed = 4.5f;
-    [SerializeField] float attackRange = 2f;
-    [SerializeField] float attackDamage = 10f;
-    [SerializeField] float attackCooldown = 1f;
 
     NavMeshAgent agent;
     Transform player;
@@ -35,6 +24,9 @@ public class EnemyAI : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        Health health = GetComponent<Health>();
+        if (health != null) health.Initialize(data.maxHealth);
     }
 
     void Start()
@@ -74,27 +66,27 @@ public class EnemyAI : MonoBehaviour
 
             case State.Chase:
                 Chase();
-                if (!playerAlive || Time.time - lastSeenTime > loseSightTime) ReturnToPatrol();
-                else if (canSee && distance <= attackRange) state = State.Attack;
+                if (!playerAlive || Time.time - lastSeenTime > data.loseSightTime) ReturnToPatrol();
+                else if (canSee && distance <= data.attackRange) state = State.Attack;
                 break;
 
             case State.Attack:
                 Attack();
                 if (!playerAlive) ReturnToPatrol();
-                else if (!canSee || distance > attackRange) state = State.Chase;
+                else if (!canSee || distance > data.attackRange) state = State.Chase;
                 break;
         }
     }
 
     void Patrol()
     {
-        agent.speed = patrolSpeed;
+        agent.speed = data.patrolSpeed;
         if (patrolPoints.Length == 0) return;
 
         if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.1f) return;
 
         waitTimer += Time.deltaTime;
-        if (waitTimer >= waitTimeAtPoint)
+        if (waitTimer >= data.waitTimeAtPoint)
         {
             waitTimer = 0f;
             currentPoint = (currentPoint + 1) % patrolPoints.Length;
@@ -105,7 +97,7 @@ public class EnemyAI : MonoBehaviour
     void Chase()
     {
         agent.isStopped = false;
-        agent.speed = chaseSpeed;
+        agent.speed = data.chaseSpeed;
         agent.SetDestination(lastKnownPosition);
     }
 
@@ -116,8 +108,8 @@ public class EnemyAI : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            nextAttackTime = Time.time + attackCooldown;
-            if (playerHealth != null) playerHealth.TakeDamage(attackDamage);
+            nextAttackTime = Time.time + data.attackCooldown;
+            if (playerHealth != null) playerHealth.TakeDamage(data.attackDamage);
         }
     }
 
@@ -133,15 +125,15 @@ public class EnemyAI : MonoBehaviour
 
     bool CanSeePlayer()
     {
-        Vector3 eyes = transform.position + Vector3.up * eyeHeight;
+        Vector3 eyes = transform.position + Vector3.up * data.eyeHeight;
         Vector3 toPlayer = player.position - eyes;
 
-        if (toPlayer.magnitude > detectionRange) return false;
+        if (toPlayer.magnitude > data.detectionRange) return false;
 
         Vector3 flatDirection = new Vector3(toPlayer.x, 0f, toPlayer.z);
-        if (Vector3.Angle(transform.forward, flatDirection) > viewAngle * 0.5f) return false;
+        if (Vector3.Angle(transform.forward, flatDirection) > data.viewAngle * 0.5f) return false;
 
-        if (Physics.Raycast(eyes, toPlayer.normalized, out RaycastHit hit, detectionRange, visionMask, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(eyes, toPlayer.normalized, out RaycastHit hit, data.detectionRange, visionMask, QueryTriggerInteraction.Ignore))
             return hit.transform == player || hit.transform.IsChildOf(player);
 
         return false;
@@ -159,14 +151,17 @@ public class EnemyAI : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        if (data != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, data.detectionRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, data.attackRange);
+        }
 
         if (patrolPoints == null || patrolPoints.Length == 0) return;
 
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.cyan;
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             Gizmos.DrawSphere(patrolPoints[i], 0.3f);

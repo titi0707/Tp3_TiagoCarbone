@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] Health playerHealth;
     [SerializeField] PlayerController playerController;
-    [SerializeField] Weapon weapon;
+    [SerializeField] WeaponSwitcher weaponSwitcher;
     [SerializeField] GameObject victoryPanel;
     [SerializeField] GameObject defeatPanel;
     [SerializeField] TMP_Text objectiveText;
@@ -59,7 +59,8 @@ public class GameManager : MonoBehaviour
         gameOver = true;
 
         playerController.enabled = false;
-        weapon.enabled = false;
+       weaponSwitcher.enabled = false;
+       weaponSwitcher.CurrentWeapon.enabled = false;
 
         panel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
