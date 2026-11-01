@@ -6,14 +6,19 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] WeaponData data;
     [SerializeField] Transform cameraTransform;
+    [SerializeField] Transform muzzlePoint;
     [SerializeField] LayerMask hitMask = ~0;
+
     [SerializeField] ParticleSystem muzzleFlash;
+    [SerializeField] BulletTracer tracerPrefab;
     [SerializeField] GameObject impactPrefab;
+    [SerializeField] GameObject enemyImpactPrefab;
 
     int currentAmmo;
     int reserveAmmo;
     float nextFireTime;
     bool isReloading;
+    Collider ownerCollider;
 
     public string WeaponName => data.weaponName;
     public int CurrentAmmo => currentAmmo;
@@ -25,6 +30,7 @@ public class Weapon : MonoBehaviour
     {
         currentAmmo = data.magazineSize;
         reserveAmmo = data.startingReserveAmmo;
+        ownerCollider = GetComponentInParent<CharacterController>();
     }
 
     void OnDisable()
@@ -70,11 +76,18 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         if (muzzleFlash != null) muzzleFlash.Play();
 
+        if (data.useProjectile) ShootProjectile();
+        else ShootRaycast();
+    }
+
+    void ShootRaycast()
+    {
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        Vector3 endPoint = ray.GetPoint(data.range);
 
         if (Physics.Raycast(ray, out RaycastHit hit, data.range, hitMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
+            endPoint = hit.point;
 
             Health health = hit.collider.GetComponentInParent<Health>();
             if (health != null) health.TakeDamage(data.damage);
@@ -82,12 +95,36 @@ public class Weapon : MonoBehaviour
             if (hit.rigidbody != null)
                 hit.rigidbody.AddForceAtPosition(ray.direction * 5f, hit.point, ForceMode.Impulse);
 
-            if (impactPrefab != null)
+            GameObject effect = health != null ? enemyImpactPrefab : impactPrefab;
+            if (effect != null)
             {
-                GameObject impact = Instantiate(impactPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                GameObject impact = Instantiate(effect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impact, 2f);
             }
         }
+
+        SpawnTracer(endPoint);
+    }
+
+    void SpawnTracer(Vector3 endPoint)
+    {
+        if (tracerPrefab == null || muzzlePoint == null) return;
+
+        BulletTracer tracer = Instantiate(tracerPrefab, muzzlePoint.position, Quaternion.identity);
+        tracer.Init(endPoint);
+    }
+
+    void ShootProjectile()
+    {
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        Vector3 targetPoint = Physics.Raycast(ray, out RaycastHit hit, data.range, hitMask, QueryTriggerInteraction.Ignore)
+            ? hit.point
+            : ray.GetPoint(data.range);
+
+        Vector3 direction = (targetPoint - muzzlePoint.position).normalized;
+
+        Projectile projectile = Instantiate(data.projectilePrefab, muzzlePoint.position, Quaternion.LookRotation(direction));
+        projectile.Launch(direction * data.projectileSpeed, data.damage, data.explosionRadius, data.explosionForce, ownerCollider);
     }
 
     IEnumerator Reload()

@@ -6,6 +6,7 @@ public class Health : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     [SerializeField] bool destroyOnDeath = true;
 
+    public UnityEvent onDamaged;
     public UnityEvent onDeath;
 
     float currentHealth;
@@ -31,6 +32,8 @@ public class Health : MonoBehaviour
 
         currentHealth = Mathf.Max(currentHealth - amount, 0f);
         Debug.Log($"{name} recibió {amount} de daño ({currentHealth}/{maxHealth})");
+
+        onDamaged?.Invoke();
 
         if (IsDead)
         {
