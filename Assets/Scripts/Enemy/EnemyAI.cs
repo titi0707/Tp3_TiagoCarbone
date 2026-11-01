@@ -166,7 +166,7 @@ public class EnemyAI : MonoBehaviour
 
         if (patrolPoints == null || patrolPoints.Length == 0) return;
 
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.red;
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             Gizmos.DrawSphere(patrolPoints[i], 0.3f);
