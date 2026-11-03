@@ -278,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46be80a174b10bb4b93c13ec1c850f32, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.724
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46be80a174b10bb4b93c13ec1c850f32, type: 3}
       propertyPath: m_LocalPosition.z
@@ -550,7 +550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18cfb1d27b9ca3c40bbd9765a9ac0324, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.68
+      value: -0.435
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18cfb1d27b9ca3c40bbd9765a9ac0324, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1119,6 +1119,7 @@ GameObject:
   - component: {fileID: 415952737}
   - component: {fileID: 415952736}
   - component: {fileID: 415952738}
+  - component: {fileID: 415952739}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1277,7 +1278,31 @@ MonoBehaviour:
   destroyOnDeath: 0
   onDamaged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 415952739}
+        m_TargetAssemblyTypeName: HealthSounds, Assembly-CSharp
+        m_MethodName: PlayHurt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1293,6 +1318,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &415952739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415952731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fabea760b96f00745819eeda999d27b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSounds
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  volume: 1
 --- !u!1 &424049747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424049748}
   - component: {fileID: 424049749}
+  - component: {fileID: 424049750}
   m_Layer: 0
   m_Name: LanzaGranadas
   m_TagString: Untagged
@@ -1349,6 +1390,24 @@ MonoBehaviour:
   tracerPrefab: {fileID: 0}
   impactPrefab: {fileID: 0}
   enemyImpactPrefab: {fileID: 0}
+--- !u!114 &424049750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424049747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c635aae820ff8c47b06634885486ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponMotion
+  recoilKick: 0.15
+  recoilRotation: 12
+  returnSpeed: 12
+  reloadOffset: {x: 0, y: -0.15, z: 0}
+  reloadTilt: 30
+  equipDrop: 0.3
 --- !u!1 &642275888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,7 +1433,7 @@ Transform:
   m_GameObject: {fileID: 642275888}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.583, y: 0.918, z: 0.84}
+  m_LocalPosition: {x: 0.583, y: -0.2042, z: 0.8564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1444,6 +1503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 859217164}
   - component: {fileID: 859217165}
+  - component: {fileID: 859217166}
   m_Layer: 0
   m_Name: Pistola
   m_TagString: Untagged
@@ -1490,6 +1550,24 @@ MonoBehaviour:
   tracerPrefab: {fileID: 2953074339790432006, guid: 3b30b3fbf68f7e94aa6282ad59e8f206, type: 3}
   impactPrefab: {fileID: 8590205582978231296, guid: 2c4773934318e4e40b96bcd04828156d, type: 3}
   enemyImpactPrefab: {fileID: 8590205582978231296, guid: 6cf91dd1eb6495d4cbe176179f13fbee, type: 3}
+--- !u!114 &859217166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859217163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c635aae820ff8c47b06634885486ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponMotion
+  recoilKick: 0.08
+  recoilRotation: 6
+  returnSpeed: 12
+  reloadOffset: {x: 0, y: -0.15, z: 0}
+  reloadTilt: 30
+  equipDrop: 0.3
 --- !u!1 &861756362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,7 +1970,7 @@ Transform:
   m_GameObject: {fileID: 1233349705}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.583, y: 0.878, z: 1.211}
+  m_LocalPosition: {x: 0.6407, y: -0.3173, z: 1.1785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1908,6 +1986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1379920430}
   - component: {fileID: 1379920429}
+  - component: {fileID: 1379920431}
   m_Layer: 0
   m_Name: Weapons
   m_TagString: Untagged
@@ -1931,6 +2010,7 @@ MonoBehaviour:
   - {fileID: 859217165}
   - {fileID: 1419283921}
   - {fileID: 424049749}
+  switchSound: {fileID: 8300000, guid: b115c95467770af4fa5de3c68f48ac77, type: 3}
 --- !u!4 &1379920430
 Transform:
   m_ObjectHideFlags: 0
@@ -1949,6 +2029,103 @@ Transform:
   - {fileID: 424049748}
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1379920431
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379920428}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.35
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1390559570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2111,6 +2288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1419283920}
   - component: {fileID: 1419283921}
+  - component: {fileID: 1419283922}
   m_Layer: 0
   m_Name: Subfusil
   m_TagString: Untagged
@@ -2157,6 +2335,24 @@ MonoBehaviour:
   tracerPrefab: {fileID: 2953074339790432006, guid: 3b30b3fbf68f7e94aa6282ad59e8f206, type: 3}
   impactPrefab: {fileID: 8590205582978231296, guid: 2c4773934318e4e40b96bcd04828156d, type: 3}
   enemyImpactPrefab: {fileID: 8590205582978231296, guid: 6cf91dd1eb6495d4cbe176179f13fbee, type: 3}
+--- !u!114 &1419283922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419283919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c635aae820ff8c47b06634885486ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponMotion
+  recoilKick: 0.08
+  recoilRotation: 6
+  returnSpeed: 12
+  reloadOffset: {x: 0, y: -0.15, z: 0}
+  reloadTilt: 30
+  equipDrop: 0.3
 --- !u!1 &1554007399
 GameObject:
   m_ObjectHideFlags: 0

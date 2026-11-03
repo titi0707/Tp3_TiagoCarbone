@@ -19,6 +19,8 @@ public class Weapon : MonoBehaviour
     float nextFireTime;
     bool isReloading;
     Collider ownerCollider;
+    AudioSource audioSource;
+    WeaponMotion motion;
 
     public string WeaponName => data.weaponName;
     public int CurrentAmmo => currentAmmo;
@@ -31,6 +33,8 @@ public class Weapon : MonoBehaviour
         currentAmmo = data.magazineSize;
         reserveAmmo = data.startingReserveAmmo;
         ownerCollider = GetComponentInParent<CharacterController>();
+        audioSource = GetComponentInParent<AudioSource>();
+        motion = GetComponent<WeaponMotion>();
     }
 
     void OnDisable()
@@ -66,7 +70,7 @@ public class Weapon : MonoBehaviour
             }
             else if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                Debug.Log("Sin munición");
+                PlaySound(data.emptySound);
             }
         }
     }
@@ -74,7 +78,10 @@ public class Weapon : MonoBehaviour
     void Shoot()
     {
         currentAmmo--;
+
         if (muzzleFlash != null) muzzleFlash.Play();
+        if (motion != null) motion.Recoil();
+        PlaySound(data.fireSound);
 
         if (data.useProjectile) ShootProjectile();
         else ShootRaycast();
@@ -130,7 +137,7 @@ public class Weapon : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("Recargando...");
+        PlaySound(data.reloadSound);
         yield return new WaitForSeconds(data.reloadTime);
 
         int needed = data.magazineSize - currentAmmo;
@@ -139,6 +146,12 @@ public class Weapon : MonoBehaviour
         currentAmmo += toLoad;
         reserveAmmo -= toLoad;
         isReloading = false;
+    }
+
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+            audioSource.PlayOneShot(clip);
     }
 
     public void AddAmmo(int amount)

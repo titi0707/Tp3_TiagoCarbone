@@ -33,12 +33,14 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth - amount, 0f);
         Debug.Log($"{name} recibió {amount} de daño ({currentHealth}/{maxHealth})");
 
-        onDamaged?.Invoke();
-
         if (IsDead)
         {
             onDeath?.Invoke();
             if (destroyOnDeath) Destroy(gameObject);
+        }
+        else
+        {
+            onDamaged?.Invoke();
         }
     }
 }

@@ -26,3 +26,6 @@ MonoBehaviour:
   projectileSpeed: 25
   explosionRadius: 3
   explosionForce: 10
+  fireSound: {fileID: 8300000, guid: 7f4a5149b2c4aea4dbf7a055ee9987e3, type: 3}
+  reloadSound: {fileID: 0}
+  emptySound: {fileID: 0}

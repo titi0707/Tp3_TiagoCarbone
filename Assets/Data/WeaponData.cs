@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "FPS/Weapon Data")]
 public class WeaponData : ScriptableObject
 {
-   
+    
     public string weaponName = "Arma";
 
     
@@ -12,7 +12,7 @@ public class WeaponData : ScriptableObject
     public float fireRate = 10f;
     public bool automatic = true;
 
-  
+    
     public int magazineSize = 30;
     public int startingReserveAmmo = 120;
     public int maxReserveAmmo = 180;
@@ -24,4 +24,9 @@ public class WeaponData : ScriptableObject
     public float projectileSpeed = 25f;
     public float explosionRadius = 3f;
     public float explosionForce = 10f;
+
+    
+    public AudioClip fireSound;
+    public AudioClip reloadSound;
+    public AudioClip emptySound;
 }

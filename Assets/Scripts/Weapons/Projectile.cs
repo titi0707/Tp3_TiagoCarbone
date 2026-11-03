@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] float lifeTime = 6f;
     [SerializeField] GameObject explosionPrefab;
+    [SerializeField] AudioClip explosionSound;
 
     Rigidbody rb;
     float damage;
@@ -45,6 +46,9 @@ public class Projectile : MonoBehaviour
 
         if (explosionPrefab != null)
             Destroy(Instantiate(explosionPrefab, point, Quaternion.identity), 2f);
+
+        if (explosionSound != null)
+            AudioSource.PlayClipAtPoint(explosionSound, point);
 
         Destroy(gameObject);
     }

@@ -4,14 +4,21 @@ using UnityEngine.InputSystem;
 public class WeaponSwitcher : MonoBehaviour
 {
     [SerializeField] Weapon[] weapons;
+    [SerializeField] AudioClip switchSound;
 
-    int currentIndex;
+    int currentIndex = -1;
+    AudioSource audioSource;
 
-    public Weapon CurrentWeapon => weapons[currentIndex];
+    public Weapon CurrentWeapon => weapons[Mathf.Max(currentIndex, 0)];
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
-        Equip(0);
+        Equip(0, false);
     }
 
     void Update()
@@ -27,12 +34,15 @@ public class WeaponSwitcher : MonoBehaviour
         else if (scroll < 0f) Equip((currentIndex - 1 + weapons.Length) % weapons.Length);
     }
 
-    void Equip(int index)
+    void Equip(int index, bool playSound = true)
     {
-        if (index < 0 || index >= weapons.Length) return;
+        if (index < 0 || index >= weapons.Length || index == currentIndex) return;
 
         currentIndex = index;
         for (int i = 0; i < weapons.Length; i++)
             weapons[i].gameObject.SetActive(i == index);
+
+        if (playSound && switchSound != null && audioSource != null)
+            audioSource.PlayOneShot(switchSound);
     }
 }
