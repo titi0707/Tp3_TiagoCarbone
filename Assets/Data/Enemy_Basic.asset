@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Enemy_Basic
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   patrolSpeed: 2
-  waitTimeAtPoint: 1.5
+  waitTimeAtPoint: 1
   detectionRange: 15
   viewAngle: 110
   eyeHeight: 0.8
   loseSightTime: 3
   chaseSpeed: 4.5
   attackRange: 2
-  attackDamage: 10
+  attackDamage: 15
   attackCooldown: 1
-  maxHealth: 100
+  maxHealth: 75
