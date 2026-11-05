@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Weapon_MP5
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: MP5
-  damage: 20
+  damage: 10
   range: 100
   fireRate: 10
   automatic: 1
-  magazineSize: 30
-  startingReserveAmmo: 120
-  maxReserveAmmo: 180
+  magazineSize: 24
+  startingReserveAmmo: 240
+  maxReserveAmmo: 240
   reloadTime: 1.5
   useProjectile: 0
   projectilePrefab: {fileID: 0}

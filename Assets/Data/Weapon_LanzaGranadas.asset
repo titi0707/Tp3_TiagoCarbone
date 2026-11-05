@@ -20,9 +20,12 @@ MonoBehaviour:
   magazineSize: 1
   startingReserveAmmo: 8
   maxReserveAmmo: 12
-  reloadTime: 2.5
+  reloadTime: 4
   useProjectile: 1
   projectilePrefab: {fileID: 3151424787063415823, guid: 64161c03d5ce136448d1bfad5b1e17bf, type: 3}
   projectileSpeed: 25
   explosionRadius: 3
   explosionForce: 10
+  fireSound: {fileID: 0}
+  reloadSound: {fileID: 0}
+  emptySound: {fileID: 0}

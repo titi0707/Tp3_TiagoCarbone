@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Weapon_Eagle
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: Desert Eagle
-  damage: 50
+  damage: 35
   range: 100
   fireRate: 2
   automatic: 0
-  magazineSize: 6
-  startingReserveAmmo: 36
+  magazineSize: 8
+  startingReserveAmmo: 72
   maxReserveAmmo: 72
   reloadTime: 1.5
   useProjectile: 0
