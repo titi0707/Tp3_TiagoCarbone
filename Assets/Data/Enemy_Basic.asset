@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b199bdb38670464c8ce9486f3c72732, type: 3}
   m_Name: Enemy_Basic
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  patrolSpeed: 2
+  patrolSpeed: 4
   waitTimeAtPoint: 1
-  detectionRange: 15
+  detectionRange: 45
   viewAngle: 110
   eyeHeight: 0.8
   loseSightTime: 3

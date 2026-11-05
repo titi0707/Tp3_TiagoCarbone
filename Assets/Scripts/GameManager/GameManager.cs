@@ -22,17 +22,21 @@ public class GameManager : MonoBehaviour
 
         playerHealth.onDeath.AddListener(Defeat);
 
-        EnemyAI[] enemies = FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
-        foreach (EnemyAI enemy in enemies)
-        {
-            Health enemyHealth = enemy.GetComponent<Health>();
-            if (enemyHealth == null) continue;
+        foreach (EnemyAI enemy in FindObjectsByType<EnemyAI>(FindObjectsSortMode.None))
+            RegisterEnemy(enemy.GetComponent<Health>());
 
-            enemyHealth.onDeath.AddListener(OnEnemyKilled);
-            enemiesRemaining++;
-        }
+        foreach (BossAI boss in FindObjectsByType<BossAI>(FindObjectsSortMode.None))
+            RegisterEnemy(boss.GetComponent<Health>());
 
         UpdateObjectiveText();
+    }
+
+    void RegisterEnemy(Health enemyHealth)
+    {
+        if (enemyHealth == null) return;
+
+        enemyHealth.onDeath.AddListener(OnEnemyKilled);
+        enemiesRemaining++;
     }
 
     void OnEnemyKilled()
@@ -59,8 +63,8 @@ public class GameManager : MonoBehaviour
         gameOver = true;
 
         playerController.enabled = false;
-       weaponSwitcher.enabled = false;
-       weaponSwitcher.CurrentWeapon.enabled = false;
+        weaponSwitcher.enabled = false;
+        weaponSwitcher.CurrentWeapon.enabled = false;
 
         panel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
